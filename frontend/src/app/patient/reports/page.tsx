@@ -1,6 +1,6 @@
 "use client";
 
-import { useEffect, useState, use } from "react";
+import { useEffect, useState, Suspense } from "react";
 import { motion } from "framer-motion";
 import { Activity, FileText, Calendar, ArrowRight, ArrowLeft } from "lucide-react";
 import Link from "next/link";
@@ -13,7 +13,7 @@ interface Report {
   report_date: string;
 }
 
-export default function PatientReports() {
+function ReportsContent() {
   const [reports, setReports] = useState<Report[]>([]);
   const [loading, setLoading] = useState(true);
   
@@ -132,5 +132,17 @@ export default function PatientReports() {
         </motion.div>
       </div>
     </div>
+  );
+}
+
+export default function PatientReports() {
+  return (
+    <Suspense fallback={
+      <div className="min-h-screen bg-neutral-950 flex items-center justify-center">
+        <div className="w-8 h-8 border-2 border-cyan-500/30 border-t-cyan-500 rounded-full animate-spin" />
+      </div>
+    }>
+      <ReportsContent />
+    </Suspense>
   );
 }
